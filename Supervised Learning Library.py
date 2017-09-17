@@ -23,7 +23,7 @@ class NN(object):
         self.activation = 'sig'
         self.activation_function = self.activation_dictionary[self.activation]
 
-        self._layerInput = []
+        self._layerInput  = []
         self._layerOutput = []
 
         self._layerDelta = []
