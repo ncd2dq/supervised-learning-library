@@ -9,14 +9,14 @@ class NN(object):
         '''Expects size to be a tuple'''
         if size == None:
             self.shape = (3,1)
-            self.layerCount = len(self.shape)-1
+            self.layerCount = len(self.shape) - 1
         else:
             self.shape = size
-            self.layerCount = len(self.shape)-1
+            self.layerCount = len(self.shape) - 1
             
         self.weights = []
         for l0,l1 in zip(self.shape[:-1],self.shape[1:]):
-            new_weight_matrix = 2*np.random.random((l0+1,l1))-1
+            new_weight_matrix = 2 * np.random.random((l0 + 1,l1)) - 1
             self.weights.append(new_weight_matrix)
             
         self.activation_dictionary = self.create_activation_dict()
@@ -32,13 +32,14 @@ class NN(object):
     def create_activation_dict(self):
         '''Creates a dictionary of all possible activation functions'''
         def sig(z,deriv=False):
-            output = 1/(1+np.exp(-z))
+            output = 1 / (1 + np.exp(-z))
             if deriv:
-                return output*(1-output)
+                return output * (1 - output)
             else:
                 return output
+               
         def ReLU(z,deriv=False):
-            output= z
+            output = z
             if deriv:
                 return 1
             else:
@@ -101,20 +102,20 @@ class NN(object):
         for index in reversed(range(self.layerCount)):
             if index == 0:
                 inpt = self._layerInput[index]
-                update = np.dot(inpt.T,self._layerDelta[len(self._layerDelta)-1-index])
-                self.weights[index]+= update * LR
+                update = np.dot(inpt.T,self._layerDelta[len(self._layerDelta) - 1 - index])
+                self.weights[index] += update * LR
             else:
-                inpt = self._layerOutput[len(self._layerOutput)-1-index]
+                inpt = self._layerOutput[len(self._layerOutput) - 1 - index]
                 inpt_with_bias = self.create_bias(inpt)
-                update=  np.dot(inpt_with_bias.T,self._layerDelta[len(self._layerDelta)-1-index])
-                self.weights[index]+= update * LR
+                update=  np.dot(inpt_with_bias.T,self._layerDelta[len(self._layerDelta) - 1 - index])
+                self.weights[index] += update * LR
             
     def train(self,inpt,output,steps=10000,LR=0.01,activation = 'sig'):
         self.set_activation(activation)
         for i in range(steps):
             self.forward_pass(inpt)
             self.backwards_prop(output,LR)
-            if i%(steps/10) == 0:
+            if i%(steps / 10) == 0:
                 print('Current error: {}'.format(str(np.sum(self._layerError[-1]))))
         print('\nComplete, Final Result: {}'.format(str(self._layerOutput[-1])))
 
