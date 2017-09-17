@@ -124,6 +124,3 @@ if __name__ == '__main__':
     testingData = np.array([[1,0,1],[1,0,0]])
     y = np.array([[1],[0]])
     n.train(testingData,y,steps=1000000,LR=0.0001,activation = 'ReLU')
-
-
-        
